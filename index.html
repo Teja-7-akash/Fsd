@@ -1,378 +1,343 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Resume Builder</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resume Builder</title>
 
-<style>
-body {
-    font-family: 'Segoe UI', sans-serif;
-    margin: 0;
-    background: #eef2f7;
-}
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        margin: 0;
+        background: #eef2f7;
+      }
 
-/* HEADER */
-.header {
-    background: #2c3e50;
-    padding: 10px;
-}
-.profile-btn {
-    background: #3498db;
-    color: white;
-}
+      /* HEADER */
+      .header {
+        background: #2c3e50;
+        padding: 10px;
+      }
+      .profile-btn {
+        background: #3498db;
+        color: white;
+      }
 
-/* GENERAL */
-.container { padding: 20px; }
-.hidden { display: none; }
+      /* GENERAL */
+      .container {
+        padding: 20px;
+      }
+      .hidden {
+        display: none;
+      }
 
-button {
-    padding: 10px 15px;
-    margin: 5px;
-    border: none;
-    background: #3498db;
-    color: white;
-    cursor: pointer;
-    border-radius: 6px;
-}
-button:hover { background: #2980b9; }
+      button {
+        padding: 10px 15px;
+        margin: 5px;
+        border: none;
+        background: #3498db;
+        color: white;
+        cursor: pointer;
+        border-radius: 6px;
+      }
+      button:hover {
+        background: #2980b9;
+      }
 
-input, textarea {
-    width: 100%;
-    padding: 8px;
-    margin: 5px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
+      input,
+      textarea {
+        width: 100%;
+        padding: 8px;
+        margin: 5px 0;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
 
-.card {
-    background: white;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
+      .card {
+        background: white;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
 
-.back-btn {
-    position: fixed;
-    bottom: 10px;
-    left: 10px;
-    background: #e74c3c;
-}
+      .back-btn {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        background: #e74c3c;
+      }
 
-.dark {
-    background: #1e1e1e;
-    color: white;
-}
-.dark .card { background: #2c2c2c; }
-</style>
-</head>
+      .dark {
+        background: #1e1e1e;
+        color: white;
+      }
+      .dark .card {
+        background: #2c2c2c;
+      }
+    </style>
+  </head>
 
-<body>
+  <body>
+    <!-- HEADER -->
+    <div class="header">
+      <button onclick="showSection('profile')" class="profile-btn">
+        ☰ Profile
+      </button>
+    </div>
 
-<!-- HEADER -->
-<div class="header">
-    <button onclick="showSection('profile')" class="profile-btn">☰ Profile</button>
-</div>
-
-<!-- AUTH -->
-<div id="auth" class="container">
-    <div class="card">
+    <!-- AUTH -->
+    <div id="auth" class="container">
+      <div class="card">
         <h2>Login / Sign Up</h2>
 
-        <input type="text" id="authEmail" placeholder="Email">
-        <input type="password" id="authPass" placeholder="Password">
+        <input type="text" id="authEmail" placeholder="Email" />
+        <input type="password" id="authPass" placeholder="Password" />
 
         <button onclick="login()">Login</button>
         <button onclick="signup()">Sign Up</button>
 
         <p id="message"></p>
+      </div>
     </div>
-</div>
 
-<!-- DASHBOARD --><center>
-<div id="dashboard" class="container hidden">
-    <h2>Dashboard</h2>
-    <button onclick="showSection('form')">Create Resume</button>
-    <button onclick="showSaved()">Edit Resume</button>
-</div>
-</center>
+    <!-- DASHBOARD -->
+    <center>
+      <div id="dashboard" class="container hidden">
+        <h2>Dashboard</h2>
+        <button onclick="showSection('form')">Create Resume</button>
+        <button onclick="showSaved()">Edit Resume</button>
+      </div>
+    </center>
 
-<div id="form" class="container hidden">
-    <h2>Create Resume</h2>
+    <div id="form" class="container hidden">
+      <h2>Create Resume</h2>
 
-    <input id="name" placeholder="Full Name">
-    <textarea id="about" placeholder="About Me"></textarea>
+      <input id="name" placeholder="Full Name" />
+      <textarea id="about" placeholder="About Me"></textarea>
 
-    <h3>Contact</h3>
-    <input id="cemail" placeholder="Email">
-    <input id="phone" placeholder="Phone">
-    <input id="linkedin" placeholder="LinkedIn">
-    <input id="address" placeholder="Address">
+      <h3>Contact</h3>
+      <input id="cemail" placeholder="Email" />
+      <input id="phone" placeholder="Phone" />
+      <input id="linkedin" placeholder="LinkedIn" />
+      <input id="address" placeholder="Address" />
 
-    <h3>Education</h3>
-    <table id="eduTable">
-        <tr><th>Qualification</th><th>Institution</th><th>Year</th><th>%</th></tr>
-    </table>
-    <button onclick="addRow()">Add Row</button><br>
+      <h3>Education</h3>
+      <table id="eduTable">
+        <tr>
+          <th>Qualification</th>
+          <th>Institution</th>
+          <th>Year</th>
+          <th>%</th>
+        </tr>
+      </table>
+      <button onclick="addRow()">Add Row</button><br />
 
-    <label>Technical Skills</label>
-    <textarea id="tech" placeholder="Enter technical skills" rows="2"></textarea>
+      <label>Technical Skills</label>
+      <textarea
+        id="tech"
+        placeholder="Enter technical skills"
+        rows="2"
+      ></textarea>
 
-    <label>Skills</label>
-    <textarea id="skills" placeholder="Enter other skills" rows="2"></textarea>
+      <label>Skills</label>
+      <textarea
+        id="skills"
+        placeholder="Enter other skills"
+        rows="2"
+      ></textarea>
 
-    <label>Languages Known</label>
-    <input id="languages" type="text" placeholder="Languages">
+      <label>Languages Known</label>
+      <input id="languages" type="text" placeholder="Languages" />
 
-    <label>Certificates</label>
-    <textarea id="certificates" placeholder="Certificates obtained" rows="2"></textarea>
+      <label>Certificates</label>
+      <textarea
+        id="certificates"
+        placeholder="Certificates obtained"
+        rows="2"
+      ></textarea>
 
-    <label>Projects</label>
-    <textarea id="projects" placeholder="Projects completed" rows="3"></textarea>
+      <label>Projects</label>
+      <textarea
+        id="projects"
+        placeholder="Projects completed"
+        rows="3"
+      ></textarea>
 
-    <label>References</label>
-    <textarea id="references" placeholder="References" rows="2"></textarea>
+      <label>Reference</label>
+      <textarea id="references" placeholder="References" rows="2"></textarea>
 
-    <button onclick="submitForm()">Submit Details</button>
-    <button class="back-btn" onclick="back()">Back</button>
-</div>
-<!-- TEMPLATE -->
- 
-<div id="templates" class="container hidden">
-    <h2>Select Template</h2>
+      <button onclick="submitForm()">Submit Details</button>
+      <button class="back-btn" onclick="back()">Back</button>
+    </div>
+    <!-- TEMPLATE -->
 
-    <div class="card">
+    <div id="templates" class="container hidden">
+      <h2>Select Template</h2>
+
+      <div class="card">
         <button onclick="selectTemplate(1)">Template 1</button>
         <button onclick="selectTemplate(2)">Template 2</button>
-    </div>
+      </div>
 
-    <!-- ✅ Upload Custom Template -->
-    <div class="card">
+      <!-- ✅ Upload Custom Template -->
+      <div class="card">
         <h4>Upload Your Template</h4>
-        <input type="file" id="templateUpload">
+        <input type="file" id="templateUpload" />
+      </div>
+
+      <button class="back-btn" onclick="back()">Back</button>
     </div>
 
-    <button class="back-btn" onclick="back()">Back</button>
-</div>
+    <!-- PREVIEW -->
+    <div id="preview" class="container hidden">
+      <h2>Preview</h2>
+      <div id="resumeView" class="card"></div>
 
-<!-- PREVIEW -->
-<div id="preview" class="container hidden">
-    <h2>Preview</h2>
-    <div id="resumeView" class="card"></div>
+      <button onclick="window.print()">Download</button>
+      <button onclick="saveResume()">Save</button>
 
-    <button onclick="window.print()">Download</button>
-    <button onclick="saveResume()">Save</button>
+      <button class="back-btn" onclick="back()">Back</button>
+    </div>
 
-    <button class="back-btn" onclick="back()">Back</button>
-</div>
+    <!-- SAVED -->
+    <div id="saved" class="container hidden">
+      <h2>Saved Resumes</h2>
 
-<!-- SAVED -->
-<div id="saved" class="container hidden">
-    <h2>Saved Resumes</h2>
-
-    <!-- ✅ Upload Resume for Editing -->
-    <div class="card">
+      <!-- ✅ Upload Resume for Editing -->
+      <div class="card">
         <h4>Upload Resume File</h4>
-        <input type="file" id="resumeUpload" onchange="uploadResumeFile()">
+        <input type="file" id="resumeUpload" onchange="uploadResumeFile()" />
         <p id="uploadedFileName"></p>
+      </div>
+
+      <div id="savedList"></div>
+
+      <button class="back-btn" onclick="back()">Back</button>
     </div>
 
-    <div id="savedList"></div>
+    <!-- PROFILE -->
+    <div id="profile" class="container hidden">
+      <h2>User Profile</h2>
 
-    <button class="back-btn" onclick="back()">Back</button>
-</div>
-
-<!-- PROFILE -->
-<div id="profile" class="container hidden">
-    <h2>User Profile</h2>
-
-    <div class="card">
-        <input id="pname" placeholder="Full Name">
-        <input id="pemail" placeholder="Email">
-        <input id="pphone" placeholder="Phone">
+      <div class="card">
+        <input id="pname" placeholder="Full Name" />
+        <input id="pemail" placeholder="Email" />
+        <input id="pphone" placeholder="Phone" />
         <textarea id="paddress" placeholder="Address"></textarea>
         <button onclick="saveProfile()">Save Profile</button>
+      </div>
+
+      <button onclick="showSaved()">Saved Resumes</button>
+      <button onclick="logout()">Logout</button>
+      <button onclick="toggleDark()">🌙 Dark Mode</button>
+
+      <button class="back-btn" onclick="back()">Back</button>
     </div>
 
-    <button onclick="showSaved()">Saved Resumes</button>
-    <button onclick="logout()">Logout</button>
-    <button onclick="toggleDark()">🌙 Dark Mode</button>
+    <script>
+      let historyStack = [];
+      let currentData = {};
+      let uploadedTemplateName = "";
 
-    <button class="back-btn" onclick="back()">Back</button>
-</div>
+      // NAVIGATION
+      function showSection(id) {
+        document
+          .querySelectorAll(".container")
+          .forEach((d) => d.classList.add("hidden"));
+        document.getElementById(id).classList.remove("hidden");
+        historyStack.push(id);
+      }
 
-<script>
-let historyStack = [];
-let currentData = {};
-let uploadedTemplateName = "";
+      function back() {
+        historyStack.pop();
+        let last = historyStack.pop();
+        if (last) showSection(last);
+      }
 
-// NAVIGATION
-function showSection(id) {
-    document.querySelectorAll('.container').forEach(d => d.classList.add('hidden'));
-    document.getElementById(id).classList.remove('hidden');
-    historyStack.push(id);
-}
+      // ❌ REMOVED localStorage.clear()
 
-function back() {
-    historyStack.pop();
-    let last = historyStack.pop();
-    if (last) showSection(last);
-}
+      function signup() {
+        let email = authEmail.value;
+        let pass = authPass.value;
 
-localStorage.clear();
-function signup() {
-    let email = document.getElementById("authEmail").value;
-    let pass = document.getElementById("authPass").value;
+        if (!email || !pass) {
+          alert("Enter email & password");
+          return;
+        }
 
-    if (!email || !pass) {
-        alert("Please enter email and password");
-        return;
-    }
+        localStorage.setItem("user", JSON.stringify({ email, pass }));
+        alert("Signup successful!");
+      }
 
-    let user = { email, pass };
-    localStorage.setItem("user", JSON.stringify(user));
+      function login() {
+        let email = authEmail.value;
+        let pass = authPass.value;
 
-    alert("Signup successful! Now login.");
-}
+        let user = JSON.parse(localStorage.getItem("user"));
 
-function login() {
-    let email = document.getElementById("authEmail").value;
-    let pass = document.getElementById("authPass").value;
+        if (user && user.email === email && user.pass === pass) {
+          showSection("dashboard");
+        } else {
+          alert("Invalid login");
+        }
+      }
 
-    let user = JSON.parse(localStorage.getItem("user"));
+      function logout() {
+        showSection("auth");
+      }
 
-    if (user && user.email === email && user.pass === pass) {
-        showSection("dashboard");
-    } else {
-        alert("Invalid login details");
-    }
-}
+      window.onload = () => showSection("auth");
 
-
-function logout() {
-    showSection("auth");
-}
-
-// ✅ FIXED AUTO LOAD (VERY IMPORTANT)
-window.onload = () => {
-    showSection("auth"); // Always show login page first
-};
-
-
-// PROFILE
-function saveProfile() {
-    let profile = {
-        name: pname.value,
-        email: pemail.value,
-        phone: pphone.value,
-        address: paddress.value
-    };
-    localStorage.setItem("profile", JSON.stringify(profile));
-    alert("Profile saved!");
-}
-
-// FORM
-function addRow() {
-    let row = document.createElement("tr");
-    row.innerHTML = `<td><input></td><td><input></td><td><input></td><td><input></td>`;
-    eduTable.appendChild(row);
-}
-
-function submitForm() {
-    let fullName = document.getElementById("name").value.trim();
-    let aboutMe = document.getElementById("about").value.trim();
-    let email = document.getElementById("cemail").value.trim();
-    let phoneNum = document.getElementById("phone").value.trim();
-    let linkedinUrl = document.getElementById("linkedin").value.trim();
-    let addressVal = document.getElementById("address").value.trim();
-    let techSkills = document.getElementById("tech").value.trim();
-    let otherSkills = document.getElementById("skills").value.trim();
-    let languagesKnown = document.getElementById("languages").value.trim();
-    let certificatesVal = document.getElementById("certificates").value.trim();
-    let projectsVal = document.getElementById("projects").value.trim();
-    let referencesVal = document.getElementById("references").value.trim();
-
-    if (!fullName || !email) {
-        alert("Fill required fields");
-        return;
-    }
-
-    currentData = {
-        name: fullName,
-        about: aboutMe,
-        email: email,
-        phone: phoneNum,
-        linkedin: linkedinUrl,
-        address: addressVal,
-        tech: techSkills,
-        skills: otherSkills,
-        languages: languagesKnown,
-        certificates: certificatesVal,
-        projects: projectsVal,
-        references: referencesVal
-    };
-
-    showSection("templates");
-}
-
-// TEMPLATE
-function selectTemplate(templateNo) {
-    let file = document.getElementById("templateUpload").files[0];
-
-    if (file) {
-        uploadedTemplateName = file.name;
-
-        let reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById("resumeView").innerHTML = e.target.result;
-            showSection("preview");
+      // PROFILE
+      function saveProfile() {
+        let profile = {
+          name: pname.value,
+          email: pemail.value,
+          phone: pphone.value,
+          address: paddress.value,
         };
-        reader.readAsText(file);
-    } else {
+        localStorage.setItem("profile", JSON.stringify(profile));
+        alert("Profile saved!");
+      }
+
+      // FORM
+      function addRow() {
+        let row = document.createElement("tr");
+        row.innerHTML = `<td><input></td><td><input></td><td><input></td><td><input></td>`;
+        eduTable.appendChild(row);
+      }
+
+      function submitForm() {
+        currentData = {
+          name: name.value,
+          about: about.value,
+          email: cemail.value,
+          phone: phone.value,
+          linkedin: linkedin.value,
+          address: address.value,
+          tech: tech.value,
+          skills: skills.value,
+          languages: languages.value,
+          certificates: certificates.value,
+          projects: projects.value,
+          references: references.value,
+          editIndex: currentData.editIndex, // preserve edit index
+        };
+
+        showSection("templates");
+      }
+
+      // TEMPLATE
+      function selectTemplate(templateNo) {
         generatePreview(templateNo);
         showSection("preview");
-    }
-}
+      }
 
-// PREVIEW
-function generatePreview(templateNo) {
-    if (templateNo === 1) {
-        // PROFESSIONAL TEMPLATE 1
-        resumeView.innerHTML = `
-        <div style="padding:20px; border-left:6px solid #3498db;">
-            <center><h1 style="color:#2c3e50;"><b>${currentData.name}</b></h1></center>
-            <p>${currentData.about}</p>
-
-            <hr>
-
-            <h3 style="color:#3498db;">Contact</h3>
-            <p>Linkedin: ${currentData.linkedin}</p>
-            <p>Email: ${currentData.email}</p>
-            <p>Phone: ${currentData.phone}</p>
-            <p>Address: ${currentData.address}</p>
-
-            <h3 style="color:#3498db;">Technical Skills</h3>
-            <p>${currentData.tech}</p>
-            <h3 style="color:#3498db;">Skills</h3>
-            <p>${currentData.skills}</p>
-            <h3 style="color:#3498db;">Languages known</h3>
-            <p>${currentData.languages}</p>
-            <h3 style="color:#3498db;">Certificates</h3>
-            <p>${currentData.certificates}</p>
-
-            <h3 style="color:#3498db;">Projects</h3>
-            <p>${currentData.projects}</p>
-            <h3 style="color:#3498db;">Reference</h3>
-            <p>${currentData.reference}</p>
-        </div>
-        `;
-    } 
-    
-    else if (templateNo === 2) {
-        // PROFESSIONAL TEMPLATE 2
-        resumeView.innerHTML = `
-        <div style="display:flex;">
+      // PREVIEW
+      function generatePreview(templateNo = 1) {
+        if (templateNo === 1) {
+          resumeView.innerHTML = `
+      <div style="display:flex;">
             
             <div style="width:30%; background:#2c3e50; color:white; padding:15px;">
                 <h2>${currentData.name}</h2>
@@ -406,74 +371,125 @@ function generatePreview(templateNo) {
 
                 
                 <h2>Reference</h2>
-                <p>${currentData.reference}</p>
+                <p>${currentData.references}</p>
                 
             </div>
 
         </div>
         `;
-    }
-}
+        }
+        if (templateNo === 2) {
+          resumeView.innerHTML = `
+      <div style="padding:20px; border-left:6px solid #3498db;">
+            <center><h1 style="color:#2c3e50;"><b>${currentData.name}</b></h1></center>
+            <p>${currentData.about}</p>
 
+            <hr>
 
-// SAVE
-function saveResume() {
-    let resumes = JSON.parse(localStorage.getItem("resumes")) || [];
-    resumes.push(currentData);
-    localStorage.setItem("resumes", JSON.stringify(resumes));
-    alert("Saved!");
-}
+            <h3 style="color:#3498db;">Contact</h3>
+            <p>Linkedin: ${currentData.linkedin}</p>
+            <p>Email: ${currentData.email}</p>
+            <p>Phone: ${currentData.phone}</p>
+            <p>Address: ${currentData.address}</p>
 
-// SAVED
-function showSaved() {
-    showSection("saved");
-    let list = document.getElementById("savedList");
-    list.innerHTML = "";
-    let resumes = JSON.parse(localStorage.getItem("resumes")) || [];
+            <h3 style="color:#3498db;">Technical Skills</h3>
+            <p>${currentData.tech}</p>
+            <h3 style="color:#3498db;">Skills</h3>
+            <p>${currentData.skills}</p>
+            <h3 style="color:#3498db;">Languages known</h3>
+            <p>${currentData.languages}</p>
+            <h3 style="color:#3498db;">Certificates</h3>
+            <p>${currentData.certificates}</p>
 
-    resumes.forEach((r,i) => {
-        let div = document.createElement("div");
-        div.className = "card";
-        div.innerHTML = `
-            <h3>${r.name}</h3>
-            <button onclick="viewResume(${i})">View</button>
-            <button onclick="deleteResume(${i})">Delete</button>
+            <h3 style="color:#3498db;">Projects</h3>
+            <p>${currentData.projects}</p>
+            <h3 style="color:#3498db;">Reference</h3>
+            <p>${currentData.references}</p>
+        </div>
         `;
-        list.appendChild(div);
-    });
-}
+        }
+      }
 
-// Upload Resume File
-function uploadResumeFile() {
-    let file = document.getElementById("resumeUpload").files[0];
-    if (file) {
-        document.getElementById("uploadedFileName").innerText = "Uploaded: " + file.name;
-    }
-}
+      // ✅ SAVE / UPDATE
+      function saveResume() {
+        let resumes = JSON.parse(localStorage.getItem("resumes")) || [];
 
-// VIEW
-function viewResume(i) {
-    let resumes = JSON.parse(localStorage.getItem("resumes"));
-    currentData = resumes[i];
-    generatePreview();
-    showSection("preview");
-}
+        if (currentData.editIndex !== undefined) {
+          resumes[currentData.editIndex] = currentData;
+          delete currentData.editIndex;
+        } else {
+          resumes.push(currentData);
+        }
 
-// DELETE
-function deleteResume(i) {
-    let resumes = JSON.parse(localStorage.getItem("resumes"));
-    resumes.splice(i,1);
-    localStorage.setItem("resumes", JSON.stringify(resumes));
-    showSaved();
-}
+        localStorage.setItem("resumes", JSON.stringify(resumes));
+        alert("Saved successfully!");
+      }
 
-// DARK MODE
-function toggleDark() {
-    document.body.classList.toggle("dark");
-}
+      // SAVED LIST
+      function showSaved() {
+        showSection("saved");
 
+        let list = savedList;
+        list.innerHTML = "";
 
-</script>
+        let resumes = JSON.parse(localStorage.getItem("resumes")) || [];
 
-</body>
+        resumes.forEach((r, i) => {
+          let div = document.createElement("div");
+          div.className = "card";
+          div.innerHTML = `
+      <h3>${r.name}</h3>
+      <button onclick="viewResume(${i})">View</button>
+      <button onclick="editResume(${i})">Edit</button>
+      <button onclick="deleteResume(${i})">Delete</button>
+    `;
+          list.appendChild(div);
+        });
+      }
+
+      // ✅ EDIT FUNCTION
+      function editResume(i) {
+        let resumes = JSON.parse(localStorage.getItem("resumes"));
+        currentData = resumes[i];
+
+        name.value = currentData.name || "";
+        about.value = currentData.about || "";
+        cemail.value = currentData.email || "";
+        phone.value = currentData.phone || "";
+        linkedin.value = currentData.linkedin || "";
+        address.value = currentData.address || "";
+        tech.value = currentData.tech || "";
+        skills.value = currentData.skills || "";
+        languages.value = currentData.languages || "";
+        certificates.value = currentData.certificates || "";
+        projects.value = currentData.projects || "";
+        references.value = currentData.references || "";
+
+        currentData.editIndex = i;
+
+        showSection("form");
+      }
+
+      // VIEW
+      function viewResume(i) {
+        let resumes = JSON.parse(localStorage.getItem("resumes"));
+        currentData = resumes[i];
+        generatePreview(1);
+        showSection("preview");
+      }
+
+      // DELETE
+      function deleteResume(i) {
+        let resumes = JSON.parse(localStorage.getItem("resumes"));
+        resumes.splice(i, 1);
+        localStorage.setItem("resumes", JSON.stringify(resumes));
+        showSaved();
+      }
+
+      // DARK MODE
+      function toggleDark() {
+        document.body.classList.toggle("dark");
+      }
+    </script>
+  </body>
 </html>
