@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume Builder</title>
+<style>
+/* ===== General Styles ===== */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f5f5f5;
+}
+.navbar {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 22px;
+}
+section {
+    display: none;
+    padding: 20px;
+}
+.active {
+    display: block;
+}
+/* Forms */
+.form-container, .resume-form, .edit-resume {
+    max-width: 800px;
+    margin: 20px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+.form-container input, .resume-form input, .resume-form textarea {
+    width: 95%;
+    padding: 8px;
+    margin: 8px 0;
+}
+.form-container button, .resume-form button, .dashboard button {
+    padding: 12px 20px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.form-container button { background: #4CAF50; color: white;}
+.dashboard button { background: #2196F3; color: white; margin-right: 15px;}
+button:hover { opacity: 0.9; }
+h2, h3 { text-align: center; }
+/* Dashboard */
+.dashboard-info {
+    text-align: left;
+    margin: 15px 0;
+    font-weight: bold;
+}
+.dashboard { text-align: center; margin-top: 30px;}
+/* Resume form table */
+table { width: 100%; border-collapse: collapse; margin-bottom: 10px;}
+table, th, td { border: 1px solid #ccc;}
+th, td { padding: 8px; text-align: left; }
+/* Templates */
+.templates { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+.template { border: 1px solid #ccc; padding: 15px; width: 200px; cursor: pointer; text-align: center;}
+.template:hover { border-color: #4CAF50; }
+/* Resume Preview */
+#resumePreview { max-width: 800px; margin: 20px auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);}
+#resumePreview h2 { text-align: center; }
+/* Responsive */
+@media(max-width: 600px){
+    .dashboard button { width: 80%; margin: 10px 0;}
+    .form-container input, .resume-form input, .resume-form textarea { width: 90%; }
+    .templates { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body>
+<div class="navbar">Resume Builder</div>
+
+<!-- Home/Login -->
+<section id="home" class="active">
+    <div class="form-container">
+        <h2>Login / Sign Up</h2>
+        <input type="text" id="username" placeholder="Username or Email">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <button onclick="signup()">Sign Up</button>
+        <p id="message"></p>
+    </div>
+</section>
+
+<!-- Dashboard -->
+<section id="dashboard">
+    <div class="dashboard-info">
+        <span id="userDisplay"></span> | Saved Resumes: <span id="resumeCount">0</span> | <button onclick="logout()">Logout</button>
+    </div>
+    <div class="dashboard">
+        <button onclick="showSection('createResume')">Create Resume</button>
+        <button onclick="showSection('editResume')">Edit Resume</button>
+    </div>
+</section>
+
+<!-- Create Resume -->
+<section id="createResume">
+    <form class="resume-form" id="resumeForm">
+        <h2>Create Resume</h2>
+        <label>Full Name</label>
+        <input type="text" id="fullName" required>
+        <label>About Me</label>
+        <textarea id="aboutMe" rows="3" required></textarea>
+
+        <h3>Contact Details</h3>
+        <label>Email</label>
+        <input type="email" id="email" required>
+        <label>Phone</label>
+        <input type="tel" id="phone" required>
+        <label>LinkedIn URL</label>
+        <input type="url" id="linkedin">
+        <label>Address</label>
+        <textarea id="address" rows="2"></textarea>
+
+        <h3>Education</h3>
+        <table>
+            <thead><tr><th>Degree</th><th>Institution</th><th>Year</th><th>Grade/Percentage</th></tr></thead>
+            <tbody>
+                <tr><td>10th</td><td><input id="edu10_inst"></td><td><input id="edu10_year"></td><td><input id="edu10_grade"></td></tr>
+                <tr><td>12th</td><td><input id="edu12_inst"></td><td><input id="edu12_year"></td><td><input id="edu12_grade"></td></tr>
+                <tr><td>UG</td><td><input id="eduUG_inst"></td><td><input id="eduUG_year"></td><td><input id="eduUG_grade"></td></tr>
+            </tbody>
+        </table>
+
+        <label>Technical Skills</label>
+        <textarea id="techSkills" rows="2"></textarea>
+        <label>Skills</label>
+        <textarea id="skills" rows="2"></textarea>
+        <label>Languages Known</label>
+        <input type="text" id="languages">
+        <label>Certificates</label>
+        <textarea id="certificates" rows="2"></textarea>
+        <label>Projects</label>
+        <textarea id="projects" rows="3"></textarea>
+        <label>Experience</label>
+        <textarea id="experience" rows="3"></textarea>
+        <label>References</label>
+        <textarea id="references" rows="2"></textarea>
+        <label>Additional Description</label>
+        <textarea id="description" rows="3"></textarea>
+
+        <button type="submit">Submit Resume</button>
+        <button type="button" onclick="showSection('dashboard')">Back</button>
+    </form>
+</section>
+
+<!-- Template Selection -->
+<section id="templateSelection">
+    <h2>Select a Template</h2>
+    <input type="file" id="uploadTemplate" accept=".html,.txt">
+    <div class="templates">
+        <div class="template" onclick="generateResume('template1')">Template 1</div>
+        <div class="template" onclick="generateResume('template2')">Template 2</div>
+    </div>
+    <button onclick="showSection('createResume')">Back</button>
+</section>
+
+<!-- Resume Preview -->
+<section id="resumePreviewSection">
+    <div id="resumePreview"></div>
+    <div style="text-align:center; margin:20px;">
+        <button onclick="downloadPDF()">Download PDF</button>
+        <button onclick="saveResume()">Save</button>
+        <button onclick="showSection('templateSelection')">Back</button>
+    </div>
+</section>
+
+<!-- Edit Resume -->
+<section id="editResume">
+    <h2>Edit Saved Resumes</h2>
+    <div class="edit-resume" id="savedResumesList"></div>
+    <label>Upload Resume for Editing</label>
+    <input type="file" id="uploadResume" accept=".json">
+    <button onclick="showSection('dashboard')">Back</button>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+// ===== Global Variables =====
+let currentUser = '';
+let savedResumes = {};
+
+// ===== Section Navigation =====
+function showSection(id){
+    document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+// ===== Login / Signup =====
+function login(){
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const msg = document.getElementById('message');
+    if(!username || !password){
+        msg.style.color='red'; msg.innerText='Fill all fields'; return;
+    }
+    currentUser=username;
+    if(!savedResumes[currentUser]) savedResumes[currentUser]=[];
+    document.getElementById('userDisplay').innerText=currentUser;
+    updateResumeCount();
+    showSection('dashboard');
+}
+function signup(){
+    const msg = document.getElementById('message');
+    msg.style.color='green'; msg.innerText='Signup successful! Login now.';
+}
+function logout(){
+    currentUser=''; showSection('home'); document.getElementById('username').value=''; document.getElementById('password').value='';
+}
+
+// ===== Resume Form Submission =====
+let resumeData = {};
+document.getElementById('resumeForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    resumeData={
+        fullName: document.getElementById('fullName').value,
+        aboutMe: document.getElementById('aboutMe').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        linkedin: document.getElementById('linkedin').value,
+        address: document.getElementById('address').value,
+        education:[
+            {degree:'10th', inst:document.getElementById('edu10_inst').value, year:document.getElementById('edu10_year').value, grade:document.getElementById('edu10_grade').value},
+            {degree:'12th', inst:document.getElementById('edu12_inst').value, year:document.getElementById('edu12_year').value, grade:document.getElementById('edu12_grade').value},
+            {degree:'UG', inst:document.getElementById('eduUG_inst').value, year:document.getElementById('eduUG_year').value, grade:document.getElementById('eduUG_grade').value}
+        ],
+        techSkills: document.getElementById('techSkills').value,
+        skills: document.getElementById('skills').value,
+        languages: document.getElementById('languages').value,
+        certificates: document.getElementById('certificates').value,
+        projects: document.getElementById('projects').value,
+        experience: document.getElementById('experience').value,
+        references: document.getElementById('references').value,
+        description: document.getElementById('description').value
+    };
+    showSection('templateSelection');
+});
+
+// ===== Generate Resume =====
+function generateResume(template){
+    let html=`<h2>${resumeData.fullName}</h2>`;
+    html+=`<p><strong>About Me:</strong> ${resumeData.aboutMe}</p>`;
+    html+=`<p><strong>Email:</strong> ${resumeData.email} | <strong>Phone:</strong> ${resumeData.phone} | <strong>LinkedIn:</strong> ${resumeData.linkedin}</p>`;
+    html+=`<p><strong>Address:</strong> ${resumeData.address}</p>`;
+    html+=`<h3>Education</h3><ul>`;
+    resumeData.education.forEach(e=>{ html+=`<li>${e.degree}: ${e.inst} (${e.year}) - ${e.grade}</li>`;});
+    html+=`</ul>`;
+    html+=`<h3>Technical Skills</h3><p>${resumeData.techSkills}</p>`;
+    html+=`<h3>Skills</h3><p>${resumeData.skills}</p>`;
+    html+=`<h3>Languages</h3><p>${resumeData.languages}</p>`;
+    html+=`<h3>Certificates</h3><p>${resumeData.certificates}</p>`;
+    html+=`<h3>Projects</h3><p>${resumeData.projects}</p>`;
+    html+=`<h3>Experience</h3><p>${resumeData.experience}</p>`;
+    html+=`<h3>References</h3><p>${resumeData.references}</p>`;
+    html+=`<h3>Additional Info</h3><p>${resumeData.description}</p>`;
+    document.getElementById('resumePreview').innerHTML=html;
+    showSection('resumePreviewSection');
+}
+
+// ===== Download PDF =====
+function downloadPDF(){
+    html2pdf().from(document.getElementById('resumePreview')).save('resume.pdf');
+}
+
+// ===== Save Resume =====
+function saveResume(){
+    if(currentUser){
+        savedResumes[currentUser].push({...resumeData});
+        updateResumeCount();
+        alert("Resume saved in your profile!");
+    }
+}
+function updateResumeCount(){
+    document.getElementById('resumeCount').innerText = savedResumes[currentUser].length;
+}
+
+// ===== Edit Resume =====
+function showEditResumes(){
+    const list = document.getElementById('savedResumesList');
+    list.innerHTML='';
+    if(savedResumes[currentUser].length===0){ list.innerHTML='No saved resumes'; return;}
+    savedResumes[currentUser].forEach((res,i)=>{
+        const btn=document.createElement('button');
+        btn.innerText='Edit Resume '+(i+1);
+        btn.onclick=()=>{
+            resumeData=res;
+            // fill form
+            document.getElementById('fullName').value=res.fullName;
+            document.getElementById('aboutMe').value=res.aboutMe;
+            document.getElementById('email').value=res.email;
+            document.getElementById('phone').value=res.phone;
+            document.getElementById('linkedin').value=res.linkedin;
+            document.getElementById('address').value=res.address;
+            document.getElementById('edu10_inst').value=res.education[0].inst;
+            document.getElementById('edu10_year').value=res.education[0].year;
+            document.getElementById('edu10_grade').value=res.education[0].grade;
+            document.getElementById('edu12_inst').value=res.education[1].inst;
+            document.getElementById('edu12_year').value=res.education[1].year;
+            document.getElementById('edu12_grade').value=res.education[1].grade;
+            document.getElementById('eduUG_inst').value=res.education[2].inst;
+            document.getElementById('eduUG_year').value=res.education[2].year;
+            document.getElementById('eduUG_grade').value=res.education[2].grade;
+            document.getElementById('techSkills').value=res.techSkills;
+            document.getElementById('skills').value=res.skills;
+            document.getElementById('languages').value=res.languages;
+            document.getElementById('certificates').value=res.certificates;
+            document.getElementById('projects').value=res.projects;
+            document.getElementById('experience').value=res.experience;
+            document.getElementById('references').value=res.references;
+            document.getElementById('description').value=res.description;
+            showSection('createResume');
+        };
+        list.appendChild(btn);
+    });
+}
+document.getElementById('editResume').addEventListener('click', showEditResumes);
+</script>
+</body>
+</html>
